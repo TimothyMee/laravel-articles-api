@@ -20,9 +20,9 @@ class ArticleController extends Controller
     public function show($id, Article $articles)
     {
        try{
-        $article = $articles->find($id);
+        $article = $articles->where('id', $id)->with('rating')->get();
  
-        if (!$article) {
+        if (empty($article->toArray())) {
             return response()->json([
                 'success' => false,
                 'message' => 'article with id ' . $id . ' not found'
@@ -46,9 +46,9 @@ class ArticleController extends Controller
     public function getAll(Article $article)
     {
         try{
-            $articles = $article->all();
+            $articles = $article->with('rating')->get();
 
-            if (!$article) {
+            if (empty($article->toArray())) {
                 return response()->json([
                     'success' => false,
                     'message' => 'no article found'

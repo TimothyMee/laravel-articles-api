@@ -19,6 +19,7 @@ Route::post('register', 'PassportController@register');
  
 Route::get('articles', 'ArticleController@getAll');
 Route::get('articles/{id}', 'ArticleController@show');
+Route::post('articles/{id}/rating', 'RatingController@rate');
 
 Route::middleware('auth:api')->group(function () {
     Route::get('user', 'PassportController@details');
