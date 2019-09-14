@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -37,4 +37,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+     /**
+     * Handles 'User' to 'Articles' Relationship
+     * @return \App\Article
+     */
+
+     public function articles()
+     {
+        return $this->hasMany(Article::class, 'author');
+     }
 }
