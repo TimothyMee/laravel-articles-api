@@ -18,6 +18,7 @@ class CreateArticlesTable extends Migration
             $table->string('title');
             $table->string('year');
             $table->string('author'); //this should be a user
+            $table->string('article_type');
             $table->softDeletes();
             $table->timestamps();
         });
