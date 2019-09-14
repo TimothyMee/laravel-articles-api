@@ -48,7 +48,7 @@ class ArticleController extends Controller
         try{
             $articles = $article->with('rating')->get();
 
-            if (empty($article->toArray())) {
+            if (empty($article)) {
                 return response()->json([
                     'success' => false,
                     'message' => 'no article found'
@@ -105,13 +105,19 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $article = auth()->user()->articles()->find($id);
- 
+            $article = Article::find($id);
             if (!$article) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Article with id ' . $id . ' not found'
                 ], 400);
+            }
+
+            if($article->author != auth()->id()){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You cannot edit this article'
+                ], 401);
             }
     
             $updated = $article->fill($request->all())->save();
@@ -138,7 +144,7 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         try{
-            $article = auth()->user()->articles()->find($id);
+            $article = Article::find($id);
  
             if (!$article) {
                 return response()->json([
@@ -147,6 +153,13 @@ class ArticleController extends Controller
                 ], 400);
             }
     
+            if($article->author != auth()->id()){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You cannot delete this article'
+                ], 401);
+            }
+
             if ($article->delete()) {
                 return response()->json([
                     'success' => true,
