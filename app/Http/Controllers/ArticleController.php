@@ -204,10 +204,10 @@ class ArticleController extends Controller
 
             if ($article->delete()) {
                 $user = auth()->user();
-                Mail::send('article.delete', ['user' => $user, 'article' => $article], function ($message) use ($user) {
+                Mail::send('mail.article.delete', ['user' => $user, 'article' => $article], function ($message) use ($user) {
                     $message->from('info@article-api.com', 'Info');
                     $message->sender('info@article-api.com', 'Info');
-                    $message->to('timothy33.tf@gmail.com', $user->name);
+                    $message->to($user->email, $user->name);
                     $message->subject('Article Deleted');
                 });
 

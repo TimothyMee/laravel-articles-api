@@ -221,10 +221,95 @@ class ArticleTest extends TestCase
         $delete->assertJson(['message' => "You have rated successfully", 'success' => true]);
     }
 
-    // public function testCreateArticleDate()
-    // {
+    public function testSearch()
+    {
+        $user = factory(\App\User::class)->create();
+        $article = factory(\App\Article::class)->create(['author' => $user->id]);
+        $data = [
+            "query" => $article->title
+        ];
+        $search = $this->json('POST', '/api/search', $data);
+        $search->assertStatus(200);
+        $search->assertJsonStructure(
+            [
+                'success',
+                'data' => [
+                    '*' =>[
+                        'searchable' => [
+                            'id',
+                            'title',
+                            'year',
+                            'author',
+                            'article_type',
+                            'deleted_at',
+                            'created_at',
+                            'updated_at',
+                        ],
+                        'title',
+                        'url',
+                        'type'
+                    ]
+                ]
+            ]
+        );
 
-    // }
+        $data = [
+            "query" => $article->year
+        ];
+        $search = $this->json('POST', '/api/search', $data);
+        $search->assertStatus(200);
+        $search->assertJsonStructure(
+            [
+                'success',
+                'data' => [
+                    '*' =>[
+                        'searchable' => [
+                            'id',
+                            'title',
+                            'year',
+                            'author',
+                            'article_type',
+                            'deleted_at',
+                            'created_at',
+                            'updated_at',
+                        ],
+                        'title',
+                        'url',
+                        'type'
+                    ]
+                ]
+            ]
+        );
+
+        $data = [
+            "query" => $article->article_type
+        ];
+        $search = $this->json('POST', '/api/search', $data);
+        $search->assertStatus(200);
+        $search->assertJsonStructure(
+            [
+                'success',
+                'data' => [
+                    '*' =>[
+                        'searchable' => [
+                            'id',
+                            'title',
+                            'year',
+                            'author',
+                            'article_type',
+                            'deleted_at',
+                            'created_at',
+                            'updated_at',
+                        ],
+                        'title',
+                        'url',
+                        'type'
+                    ]
+                ]
+            ]
+        );
+
+    }
     
 
 }
