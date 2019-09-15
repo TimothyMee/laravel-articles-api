@@ -6,6 +6,7 @@ PHP 7+, Docker and Composer are required.
 
 # Installation
 Start a docker machine
+
 Clone the repository
 
 After cloning the repository, Run:
@@ -41,10 +42,10 @@ After cloning the repository, Run:
 | Delete an Article | DELETE  | /articles/{id}  | yes  |
 | Rate an Article | POST  | /articles/{id}/rating  | no  |
 | Get my Articles | GET  | /my-articles  | yes  |
-| Register User | post  | /register  | no |
-| Login User | post  | /login  | no |
-| Get User details | get  | /user  | yes |
-| Search for article (name, year, article_type) | post  | /search  | no |
+| Register User | POST  | /register  | no |
+| Login User | POST  | /login  | no |
+| Get User details | GET  | /user  | yes |
+| Search for article (name, year, article_type) | POST  | /search  | no |
 
 
 # Usage
@@ -248,6 +249,8 @@ After cloning the repository, Run:
 1. Run 'docker-compose up' to start the docker containers
 2. Run 'docker-compose exec web bash ./run-tests.sh' to run test
 
+# Technologies
+Laravel, Docker, Composer, Redis, MailTrap
 
 # Contributing
 All contributions are welcomed and can be made in form of pull requests
