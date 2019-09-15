@@ -14,7 +14,6 @@ RUN apt-get update \
     && curl -sS https://getcomposer.org/installer \
     | php -- --install-dir=/usr/local/bin --filename=composer \
     && echo "AllowEncodedSlashes On" >> /etc/apache2/apache2.conf
-
 WORKDIR /var/www
 
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
