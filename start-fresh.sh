@@ -8,6 +8,9 @@ php artisan migrate:fresh
 echo "clearing cache ..."
 php artisan cache:clear
 
+echo "creating access tokens"
+php artisan passport:install
+
 echo "creating default user..."
 php artisan create:user
 
