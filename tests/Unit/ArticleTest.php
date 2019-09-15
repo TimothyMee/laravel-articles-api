@@ -71,6 +71,69 @@ class ArticleTest extends TestCase
         );
     }
 
+    public function testGettingArticle()
+    {
+        $user = factory(\App\User::class)->create();
+        $article = factory(\App\Article::class)->create(['author' => $user->id]);
+        
+        $response = $this->json('GET', '/api/articles/'.$article->id);
+        $response->assertStatus(200);
+        $response->assertJson(['success' => true]);
+        $response->assertJsonStructure(
+            [
+                'success',
+                'data' => [
+                    '*' =>[
+                    'id',
+                    'title',
+                    'year',
+                    'article_type',
+                    'deleted_at',
+                    'created_at',
+                    'updated_at',
+                    'rating'
+                    ]
+                ]
+            ]
+        );
+    }
+
+    public function testGettingMyArticle()
+    {
+        $user = factory(\App\User::class)->create();
+        $article = factory(\App\Article::class)->create(['author' => $user->id]);
+        
+        $response = $this->actingAs($user, 'api')->json('GET', '/api/my-articles/');
+        $response->assertStatus(200);
+        $response->assertJson(['success' => true]);
+        $response->assertJsonStructure(
+            [
+                'success',
+                'data' => [
+                    '*' =>[
+                    'id',
+                    'title',
+                    'year',
+                    'article_type',
+                    'deleted_at',
+                    'created_at',
+                    'updated_at',
+                    ]
+                ]
+            ]
+        );
+    }
+
+    public function testGettingMyArticleFailure()
+    {
+        $user = factory(\App\User::class)->create();
+        $article = factory(\App\Article::class)->create(['author' => $user->id]);
+        
+        $response = $this->json('GET', '/api/my-articles/');
+        $response->assertStatus(401);
+        $response->assertJson(['message' => "Unauthenticated."]);
+    }
+
     public function testUpdateArticleFailing()
     {
         $response = $this->json('GET', '/api/articles');
@@ -158,6 +221,10 @@ class ArticleTest extends TestCase
         $delete->assertJson(['message' => "You have rated successfully", 'success' => true]);
     }
 
+    // public function testCreateArticleDate()
+    // {
+
+    // }
     
 
 }
