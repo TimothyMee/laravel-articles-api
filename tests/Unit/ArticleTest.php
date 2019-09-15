@@ -136,6 +136,9 @@ class ArticleTest extends TestCase
 
     public function testUpdateArticleFailing()
     {
+        $user = factory(\App\User::class)->create();
+        $article = factory(\App\Article::class)->create(['author' => $user->id]);
+
         $response = $this->json('GET', '/api/articles');
         $response->assertStatus(200);
 
@@ -151,6 +154,9 @@ class ArticleTest extends TestCase
 
     public function testUpdateArticleMiddlewareFailing()
     {
+        $user = factory(\App\User::class)->create();
+        $article = factory(\App\Article::class)->create(['author' => $user->id]);
+
         $response = $this->json('GET', '/api/articles');
         $response->assertStatus(200);
 
@@ -164,6 +170,9 @@ class ArticleTest extends TestCase
 
     public function testDeleteArticleFailing()
     {
+        $user = factory(\App\User::class)->create();
+        $article = factory(\App\Article::class)->create(['author' => $user->id]);
+
         $response = $this->json('GET', '/api/articles');
         $response->assertStatus(200);
 
@@ -178,6 +187,9 @@ class ArticleTest extends TestCase
 
     public function testDeleteArticleMiddlewareFailing()
     {
+        $user = factory(\App\User::class)->create();
+        $article = factory(\App\Article::class)->create(['author' => $user->id]);
+        
         $response = $this->json('GET', '/api/articles');
         $response->assertStatus(200);
 
