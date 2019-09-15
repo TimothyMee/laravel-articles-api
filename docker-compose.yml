@@ -33,5 +33,11 @@ services:
     - "mysql_data:/var/lib/mysql"
     - ./data/schema.sql:/docker-entrypoint-initdb.d/schema.sql
 
+  cache:
+    container_name: ${APP_NAME}_cache
+    image: redis:5.0.5
+    ports:
+      - "63790:6379"
+    
 volumes:
   mysql_data: { driver: local }

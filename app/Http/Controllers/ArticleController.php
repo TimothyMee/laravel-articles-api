@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Article;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ArticleController extends Controller
 {
@@ -20,7 +21,12 @@ class ArticleController extends Controller
     public function show($id, Article $articles)
     {
        try{
-        $article = $articles->where('id', $id)->with('rating')->get();
+           $article = Cache::get('article-list', function(){
+                $article = new Article();
+                return $article->with('rating')->get();
+           });
+
+         $article = $article->where('id', $id);
  
         if (empty($article->toArray())) {
             return response()->json([
@@ -46,9 +52,12 @@ class ArticleController extends Controller
     public function getAll(Article $article)
     {
         try{
-            $articles = $article->with('rating')->get();
-
-            if (empty($article)) {
+            $articles = Cache::rememberForever('articles-list', function () {
+                            $article = new Article();
+                            return $article->with('rating')->get();
+                        });
+            // $articles = $article->with('rating')->get();
+            if (empty($articles->toArray())) {
                 return response()->json([
                     'success' => false,
                     'message' => 'no article found'
@@ -105,7 +114,12 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $article = Article::find($id);
+            $article = Cache::get('article-list', function(){
+                $article = new Article();
+                return $article->with('rating')->get();
+            });
+            $article = $article->find($id);
+            
             if (!$article) {
                 return response()->json([
                     'success' => false,
@@ -144,7 +158,11 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         try{
-            $article = Article::find($id);
+            $article = Cache::get('article-list', function(){
+                $article = new Article();
+                return $article->with('rating')->get();
+            });
+            $article = $article->find($id);
  
             if (!$article) {
                 return response()->json([
