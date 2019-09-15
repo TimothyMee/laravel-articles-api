@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Mail;
 use App\Article;
 use Illuminate\Http\Request;
+use Spatie\Searchable\Search;
 use Illuminate\Support\Facades\Cache;
 
 class ArticleController extends Controller
@@ -16,6 +18,28 @@ class ArticleController extends Controller
             'success' => true,
             'data' => $articles
         ]);
+    }
+
+    public function search(Request $request)
+    {
+        try{
+            $request = $request->all();
+            $searchResults = (new Search())
+            ->registerModel(Article::class, ['title', 'article_type', 'year'])
+            ->perform($request['query']);
+
+            return response()->json([
+                'success' => true,
+                'data' => $searchResults
+            ]);
+        }
+        catch(\Exception $e)
+        {
+            return response()->json([
+                'success' => false,
+                'data' => $e->getMessage()
+            ]);
+        }
     }
  
     public function show($id, Article $articles)
@@ -119,7 +143,7 @@ class ArticleController extends Controller
                 return $article->with('rating')->get();
             });
             $article = $article->find($id);
-            
+
             if (!$article) {
                 return response()->json([
                     'success' => false,
@@ -179,6 +203,14 @@ class ArticleController extends Controller
             }
 
             if ($article->delete()) {
+                $user = auth()->user();
+                Mail::send('article.delete', ['user' => $user, 'article' => $article], function ($message) use ($user) {
+                    $message->from('info@article-api.com', 'Info');
+                    $message->sender('info@article-api.com', 'Info');
+                    $message->to('timothy33.tf@gmail.com', $user->name);
+                    $message->subject('Article Deleted');
+                });
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Article Deleted successfully'

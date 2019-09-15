@@ -18,8 +18,10 @@ Route::post('login', 'PassportController@login');
 Route::post('register', 'PassportController@register');
  
 Route::get('articles', 'ArticleController@getAll');
-Route::get('articles/{id}', 'ArticleController@show');
+Route::get('articles/{id}', 'ArticleController@show')->name('article.one');
 Route::post('articles/{id}/rating', 'RatingController@rate');
+Route::post('/search', 'ArticleController@search')->name('search');
+
 
 Route::middleware('auth:api')->group(function () {
     Route::get('user', 'PassportController@details');
