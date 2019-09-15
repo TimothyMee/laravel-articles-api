@@ -55,9 +55,13 @@ After cloning the repository, Run:
 	
 	Password: “secret”
 	
-2. After successful login, a token is generated. Use token to a request every protected route
+2. After successful login, a token is generated. Use token to a request every protected route.
 
 # Example Requests and Responses
+*Run Collections in postman*
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/a4c4c1ed65811341c0fe)
+
 ### Register
     - url : localhost:9000/api/register
     - Request json: {'email': 'email address', password: 'password', name: 'user name'}
