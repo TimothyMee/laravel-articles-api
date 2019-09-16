@@ -49,13 +49,13 @@ After cloning the repository, Run:
 
 
 # Usage
-1. Next,you login as default user with credentials in the config/default.php file. Make a post request to the login route with credentials
+1. Login as default user with credentials in the config/default.php file. Make a post request to the login route with credentials
 
 	"email" : “timothy33.tf@gmail.com”
 	
 	Password: “secret”
 	
-2. After successful login, a token is generated. Use token to a request every protected route.
+2. After successful login, a token is generated. Use token to request every protected route above. See Examples below
 
 # Example Requests and Responses
 *Run Collections in postman*
