@@ -189,7 +189,7 @@ class ArticleTest extends TestCase
     {
         $user = factory(\App\User::class)->create();
         $article = factory(\App\Article::class)->create(['author' => $user->id]);
-        
+
         $response = $this->json('GET', '/api/articles');
         $response->assertStatus(200);
 
@@ -231,6 +231,18 @@ class ArticleTest extends TestCase
         $delete = $this->json('POST', '/api/articles/'.$article->id.'/rating', $data);
         $delete->assertStatus(200);
         $delete->assertJson(['message' => "You have rated successfully", 'success' => true]);
+    }
+
+    public function testRatingArticleFailing()
+    {
+        $user = factory(\App\User::class)->create();
+        $article = factory(\App\Article::class)->create(['author' => $user->id]);
+        $data = [
+            "rating" => 50
+        ];
+        $delete = $this->json('POST', '/api/articles/'.$article->id.'/rating', $data);
+        $delete->assertStatus(400);
+        $delete->assertJson(['message' => "Rating starts from 1 and must not be greater than 5", 'success' => false]);
     }
 
     public function testSearch()

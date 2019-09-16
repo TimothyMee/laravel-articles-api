@@ -22,7 +22,14 @@ class RatingController extends Controller
             $this->validate($request, [
                 'rating' => 'required|integer',
             ]);
-            
+
+            //check if rating is within rules
+            if($request->rating <= 0 || $request->rating > 5)
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Rating starts from 1 and must not be greater than 5'
+                ], 400);
+                
             //check if user has rated before. ----no need for this anymore, since the route is unprotected----
             // $ratingCheck = Rating::where(['article_id' => $id, 'rater_id' => auth() ])
 

@@ -76,10 +76,10 @@ class ArticleController extends Controller
     public function getAll(Article $article)
     {
         try{
-            $articles = Cache::rememberForever('articles-list', function () {
-                            $article = new Article();
-                            return $article->with('rating')->get();
-                        });
+            $articles = Cache::get('article-list', function(){
+                $article = new Article();
+                return $article->with('rating')->get();
+           });
             // $articles = $article->with('rating')->get();
             if (empty($articles->toArray())) {
                 return response()->json([
