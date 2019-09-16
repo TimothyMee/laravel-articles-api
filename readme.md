@@ -29,8 +29,8 @@ After cloning the repository, Run:
 3. Edit APP_API_KEY= in .env
 4. Open terminal and navigate to the app's directory
 5. Run 'docker-compose up' to start the docker containers
-6. Run 'docker-compose exec web bash ./start-fresh.sh' to migrate, clear cache and create default user
-7. App can now be accessed on localhost:9000 and API on localhost:9000/api/...
+6. Run 'docker-compose exec web bash ./start-fresh.sh' to setup the app. This command will migrate, clear cache, create tokens and create default user
+7. APIs can now be accessed on localhost:9000/api/...
 
 # Endpoints
 | Name  | Method |  URL |   Protected |
