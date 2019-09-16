@@ -29,8 +29,8 @@ After cloning the repository, Run:
 3. Edit APP_API_KEY= in .env
 4. Open terminal and navigate to the app's directory
 5. Run 'docker-compose up' to start the docker containers
-6. Run 'docker-compose exec web bash ./start-fresh.sh' to migrate, clear cache and create default user
-7. App can now be accessed on localhost:9000 and API on localhost:9000/api/...
+6. Run 'docker-compose exec web bash ./start-fresh.sh' to setup the app. This command will migrate, clear cache, create tokens and create default user
+7. APIs can now be accessed on localhost:9000/api/...
 
 # Endpoints
 | Name  | Method |  URL |   Protected |
@@ -49,13 +49,13 @@ After cloning the repository, Run:
 
 
 # Usage
-1. Next,you login as default user with credentials in the config/default.php file. Make a post request to the login route with credentials
+1. Login as default user with credentials in the config/default.php file. Make a post request to the login route with credentials
 
 	"email" : “timothy33.tf@gmail.com”
 	
 	Password: “secret”
 	
-2. After successful login, a token is generated. Use token to a request every protected route.
+2. After successful login, a token is generated. Use token to request every protected route above. See Examples below
 
 # Example Requests and Responses
 *Run Collections in postman*
